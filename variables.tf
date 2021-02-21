@@ -32,10 +32,10 @@ variable "galactus_tag" {
   default     = "2.4.1"
 }
 
-variable "application_port" {
-  description = "automuteus port"
+variable "galactus_external_port" {
+  description = "GALACTUS_EXTERNAL_PORT"
   type        = number
-  default     = 5000
+  default     = 8123
 }
 
 variable "ssh_public_key" {
@@ -48,6 +48,12 @@ variable "ec2_reqres_cidr" {
   description = "public cidr"
   type        = string
   default     = "0.0.0.0/0"
+}
+
+variable "application_region" {
+  description = "application region"
+  type        = string
+  default     = "ap-northeast-1"
 }
 
 variable "discord_bot_token" {

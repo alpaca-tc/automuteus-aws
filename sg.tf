@@ -4,30 +4,16 @@ resource "aws_security_group" "ec2" {
   vpc_id      = aws_vpc.automuteus.id
 
   ingress {
-    description = "SSH"
+    # for galactus
+    description = "galactus external port"
     protocol    = "tcp"
-    from_port   = 22
-    to_port     = 22
-    cidr_blocks = [var.ec2_reqres_cidr]
-  }
-
-  ingress {
-    description = "automuteus"
-    protocol    = "tcp"
-    from_port   = var.application_port
-    to_port     = var.application_port
+    from_port   = var.galactus_external_port
+    to_port     = var.galactus_external_port
     cidr_blocks = [var.ec2_reqres_cidr]
   }
 
   egress {
-    description = "automuteus"
-    protocol    = "tcp"
-    from_port   = var.application_port
-    to_port     = var.application_port
-    cidr_blocks = [var.ec2_reqres_cidr]
-  }
-
-  egress {
+    # for yum
     description = "http"
     protocol    = "tcp"
     from_port   = 80
@@ -36,6 +22,7 @@ resource "aws_security_group" "ec2" {
   }
 
   egress {
+    # for yum and automuteus bot
     description = "https"
     protocol    = "tcp"
     from_port   = 443
@@ -47,4 +34,16 @@ resource "aws_security_group" "ec2" {
     Name    = "${var.application_name}-sg-ec2"
     AppName = var.application_name
   }
+}
+
+resource "aws_security_group_rule" "ssh" {
+  # Open ssh port if ssh_public_key is added.
+  count             = var.ssh_public_key == "" ? 0 : 1
+  security_group_id = aws_security_group.ec2.id
+  description       = "SSH"
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  cidr_blocks       = [var.ec2_reqres_cidr]
+  protocol          = "tcp"
 }

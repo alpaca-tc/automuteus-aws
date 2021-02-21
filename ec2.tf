@@ -37,12 +37,14 @@ resource "aws_instance" "application" {
     cd automuteus
 
     # EC2 instance IP
-    public_ip=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+    public_ip=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
 
     # Replace initial env with customized variables
-    sed -e "s/^GALACTUS_HOST=/GALACTUS_HOST=https:\/\/$public_ip:${var.application_port}/" \
+    sed \
       -e "s/^AUTOMUTEUS_TAG=/AUTOMUTEUS_TAG=${var.automuteus_tag}/" \
       -e "s/^GALACTUS_TAG=/GALACTUS_TAG=${var.galactus_tag}/" \
+      -e "s/^GALACTUS_HOST=/GALACTUS_HOST=http:\/\/$public_ip:${var.galactus_external_port}/" \
+      -e "s/^GALACTUS_EXTERNAL_PORT=/GALACTUS_EXTERNAL_PORT=${var.galactus_external_port}/" \
       -e "s/^DISCORD_BOT_TOKEN=/DISCORD_BOT_TOKEN=${var.discord_bot_token}/" \
       sample.env > .env
 
