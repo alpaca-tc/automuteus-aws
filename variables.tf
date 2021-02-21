@@ -5,7 +5,7 @@ variable "application_name" {
 }
 
 variable "instance_type" {
-  description = "ec2 instance type"
+  description = "bot instance type"
   type        = string
   default     = "t2.micro"
 }
@@ -44,19 +44,19 @@ variable "ssh_public_key" {
   default     = ""
 }
 
-variable "ec2_reqres_cidr" {
-  description = "public cidr"
+variable "allowed_cidr" {
+  description = "The allowed cidr for ssh and galactus. You can modify the IP address to your home ip for security."
   type        = string
   default     = "0.0.0.0/0"
 }
 
 variable "application_region" {
-  description = "application region"
+  description = "Choose an AWS Region"
   type        = string
   default     = "ap-northeast-1"
 }
 
 variable "discord_bot_token" {
-  description = "discord bot token for automuteus"
+  description = "The discord bot token for automuteus"
   type        = string
 }

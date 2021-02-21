@@ -9,7 +9,7 @@ resource "aws_security_group" "bot" {
     protocol    = "tcp"
     from_port   = var.galactus_external_port
     to_port     = var.galactus_external_port
-    cidr_blocks = [var.ec2_reqres_cidr]
+    cidr_blocks = [var.allowed_cidr]
   }
 
   egress {
@@ -18,7 +18,7 @@ resource "aws_security_group" "bot" {
     protocol    = "tcp"
     from_port   = 80
     to_port     = 80
-    cidr_blocks = [var.ec2_reqres_cidr]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -27,7 +27,7 @@ resource "aws_security_group" "bot" {
     protocol    = "tcp"
     from_port   = 443
     to_port     = 443
-    cidr_blocks = [var.ec2_reqres_cidr]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -44,6 +44,6 @@ resource "aws_security_group_rule" "ssh" {
   type              = "ingress"
   from_port         = 22
   to_port           = 22
-  cidr_blocks       = [var.ec2_reqres_cidr]
+  cidr_blocks       = [var.allowed_cidr]
   protocol          = "tcp"
 }
