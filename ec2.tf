@@ -1,4 +1,4 @@
-resource "aws_instance" "application" {
+resource "aws_instance" "bot" {
   instance_type               = var.instance_type
   subnet_id                   = aws_subnet.public.id
   ami                         = var.instance_ami
@@ -11,7 +11,7 @@ resource "aws_instance" "application" {
   }
 
   vpc_security_group_ids = [
-    aws_security_group.ec2.id,
+    aws_security_group.bot.id,
   ]
 
   user_data = <<-EOS
@@ -52,7 +52,7 @@ resource "aws_instance" "application" {
   EOS
 
   tags = {
-    Name    = "${var.application_name}-application"
+    Name    = "${var.application_name}-bot"
     AppName = var.application_name
   }
 }

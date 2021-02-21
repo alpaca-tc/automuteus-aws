@@ -1,5 +1,5 @@
-resource "aws_security_group" "ec2" {
-  name        = "${var.application_name}-ec2"
+resource "aws_security_group" "bot" {
+  name        = "${var.application_name}-bot"
   description = "automuteus ec2 instance"
   vpc_id      = aws_vpc.automuteus.id
 
@@ -31,7 +31,7 @@ resource "aws_security_group" "ec2" {
   }
 
   tags = {
-    Name    = "${var.application_name}-sg-ec2"
+    Name    = "${var.application_name}-sg-bot"
     AppName = var.application_name
   }
 }
@@ -39,7 +39,7 @@ resource "aws_security_group" "ec2" {
 resource "aws_security_group_rule" "ssh" {
   # Open ssh port if ssh_public_key is added.
   count             = var.ssh_public_key == "" ? 0 : 1
-  security_group_id = aws_security_group.ec2.id
+  security_group_id = aws_security_group.bot.id
   description       = "SSH"
   type              = "ingress"
   from_port         = 22
